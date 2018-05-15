@@ -98,8 +98,7 @@
 }
 - (void)closeAction:(UISwitch *)sender
 {
-//    NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
-    NSURL * url = [NSURL URLWithString:@"App-Prefs:root=Bluetooth"];
+    NSURL * url = [NSURL URLWithString:UIApplicationOpenSettingsURLString];
     if([[UIApplication sharedApplication] canOpenURL:url])
     {
         [[UIApplication sharedApplication] openURL:url];
@@ -109,7 +108,6 @@
     {
         //打开
         NSLog(@"open");
-//                    [[UIApplication sharedApplication] openURL:[NSURL URLWithString:@"prefs:root=Bluetooth"]];
     }
     else
     {
