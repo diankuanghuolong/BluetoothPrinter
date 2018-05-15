@@ -1,0 +1,50 @@
+//
+//  BluetoothPrinter.pch
+//  BluetoothPrinter
+//
+//  Created by Ios_Developer on 2018/5/15.
+//  Copyright © 2018年 com.Hai.app. All rights reserved.
+//
+
+#ifndef BluetoothPrinter_pch
+#define BluetoothPrinter_pch
+
+#pragma mark
+#pragma mark ===== size =====
+#define SCREEN_WIDTH [UIScreen mainScreen].bounds.size.width
+#define SCREEN_HEIGHT [UIScreen mainScreen].bounds.size.height
+
+#define SafeAreaTopHeight (SCREEN_HEIGHT == 812.0 ? 88 : 64)
+#define SafeAreaBottomHeight (SCREEN_HEIGHT == 812.0 ? 34 : 0)
+//iOS11中，controller.automaticallyAdjustsScrollViewInsets = NO;无效解决方法
+#define AdjustsScrollViewInsetNever(controller,view) if(@available(iOS 11.0, *)) {view.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;} else if([controller isKindOfClass:[UIViewController class]]) {controller.automaticallyAdjustsScrollViewInsets = NO;}
+
+
+#define NoticeHeight SCREEN_HEIGHT/2 - SafeAreaBottomHeight - 100
+//----------------------------------------------------------------------------------------------------
+#pragma mark
+#pragma mark ===== color  =====
+//16进制颜色给色方法
+#define UIColorFromHex(s)  [UIColor colorWithRed:(((s & 0xFF0000) >> 16))/255.0 green:(((s &0xFF00) >>8))/255.0 blue:((s & 0xFF))/255.0 alpha:1.0]
+#define  Line_Color UIColorFromHex(0xf3f3f3)    //线条颜色
+#define ThemeColor UIColorFromHex(0x83be05)     //主题颜色
+#define BG_COlOR UIColorFromHex(0xf2f2f3)       //背景颜色
+#define SystemBlack UIColorFromHex(0x333333)    //黑色
+#define SystemBlack1 UIColorFromHex(0x666666)   //浅黑色
+#define SystemGray UIColorFromHex(0x999999)     //灰色
+#define Origin_Color UIColorFromHex(0xeea726)  //橙色
+//----------------------------------------------------------------------------------------------------
+#pragma mark
+#pragma mark ===== import  =====
+//
+#import "UIViewExt.h"
+#import "AlertView.h"
+#import "Factory.h"
+#import "ToolBox.h"
+
+#import <MBProgressHUD.h>
+#import <MJRefresh/MJRefresh.h>
+#import "MJExtension.h"
+
+//----------------------------------------------------------------------------------------------------
+#endif /* BluetoothPrinter_pch */
