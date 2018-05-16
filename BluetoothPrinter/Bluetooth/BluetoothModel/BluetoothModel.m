@@ -6,8 +6,8 @@
 //  Copyright © 2018年 com.Hai.app. All rights reserved.
 //
 
-#import "PrintModel.h"
+#import "BluetoothModel.h"
 
-@implementation PrintModel
+@implementation BluetoothModel
 
 @end

@@ -8,8 +8,10 @@
 
 #import "BaseModel.h"
 #import <CoreBluetooth/CoreBluetooth.h>
-
-@interface PrintModel : BaseModel
+/*
+ 有问题没有使用（我是地主家的傻儿子）
+*/
+@interface BluetoothModel : BaseModel
 
 @property (nonatomic ,strong)CBPeripheral *peripheral;
 @property (nonatomic ,strong)NSString *locolName;

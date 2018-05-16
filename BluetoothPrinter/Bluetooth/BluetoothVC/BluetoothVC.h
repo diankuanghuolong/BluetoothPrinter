@@ -8,6 +8,6 @@
 
 #import <UIKit/UIKit.h>
 
-@interface PrintVCV : BaseViewController
+@interface BluetoothVC : BaseViewController
 
 @end
