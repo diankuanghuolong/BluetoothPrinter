@@ -1,7 +1,7 @@
 # BluetoothPrinter
 BluetoothPrinter
 
-[plist配置](https://github.com/diankuanghuolong/BluetoothPrinter/blob/master/BluetoothPrinter/showImages/Pasted%20Graphic.png)
+plist配置![plist配置](https://github.com/diankuanghuolong/BluetoothPrinter/blob/master/BluetoothPrinter/showImages/Pasted%20Graphic.png)
 
 
 声明：本文借鉴多篇网络资源，记不全了。这里提供两个🔗：[🔗1](https://www.jianshu.com/p/1f479b6ab6df)
