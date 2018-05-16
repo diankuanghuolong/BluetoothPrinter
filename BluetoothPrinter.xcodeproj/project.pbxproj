@@ -21,6 +21,7 @@
 		B6A4554920AC1CDA00F13D51 /* BluetoothModel.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4554120AC1CDA00F13D51 /* BluetoothModel.m */; };
 		B6A4554A20AC1CDA00F13D51 /* BluetoothVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4554420AC1CDA00F13D51 /* BluetoothVC.m */; };
 		B6A4554B20AC1CDA00F13D51 /* BluetoothCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B6A4554820AC1CDA00F13D51 /* BluetoothCell.m */; };
+		B6A4554D20AC231300F13D51 /* bluetooth.gif in Resources */ = {isa = PBXBuildFile; fileRef = B6A4554C20AC231200F13D51 /* bluetooth.gif */; };
 		B6B0C94920A9177D003610A4 /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = B6B0C94820A9177D003610A4 /* AppDelegate.m */; };
 		B6B0C94C20A9177D003610A4 /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B6B0C94B20A9177D003610A4 /* ViewController.m */; };
 		B6B0C94F20A9177D003610A4 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = B6B0C94D20A9177D003610A4 /* Main.storyboard */; };
@@ -56,6 +57,7 @@
 		B6A4554520AC1CDA00F13D51 /* BluetoothVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluetoothVC.h; sourceTree = "<group>"; };
 		B6A4554720AC1CDA00F13D51 /* BluetoothCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BluetoothCell.h; sourceTree = "<group>"; };
 		B6A4554820AC1CDA00F13D51 /* BluetoothCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BluetoothCell.m; sourceTree = "<group>"; };
+		B6A4554C20AC231200F13D51 /* bluetooth.gif */ = {isa = PBXFileReference; lastKnownFileType = image.gif; path = bluetooth.gif; sourceTree = "<group>"; };
 		B6B0C94420A9177D003610A4 /* BluetoothPrinter.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = BluetoothPrinter.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		B6B0C94720A9177D003610A4 /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
 		B6B0C94820A9177D003610A4 /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
@@ -155,6 +157,7 @@
 		B65FE40520AAD3C40017D97C /* showImages */ = {
 			isa = PBXGroup;
 			children = (
+				B6A4554C20AC231200F13D51 /* bluetooth.gif */,
 				B65FE40620AAD4330017D97C /* Pasted Graphic.png */,
 			);
 			path = showImages;
@@ -309,6 +312,7 @@
 				B6B0C95420A9177F003610A4 /* LaunchScreen.storyboard in Resources */,
 				B65FE3FE20AA77450017D97C /* nav_btn_back@3x.png in Resources */,
 				B6B0C95120A9177F003610A4 /* Assets.xcassets in Resources */,
+				B6A4554D20AC231300F13D51 /* bluetooth.gif in Resources */,
 				B65FE40720AAD4330017D97C /* Pasted Graphic.png in Resources */,
 				B6B0C94F20A9177D003610A4 /* Main.storyboard in Resources */,
 			);
