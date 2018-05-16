@@ -225,24 +225,22 @@
             if (peripheral.state == CBPeripheralStateConnected)
             {
                 cell.stateL.text = @"已连接";
-                cell.cancelBtn.hidden = YES;
+                cell.cancelBtn.hidden = NO;
             }
             else
             {
                 cell.stateL.text = @"未连接";
-                cell.cancelBtn.hidden = NO;
+                cell.cancelBtn.hidden = YES;
             }
         }
         //reframe
         if (indexPath.section == 2)
         {
             cell.stateL.hidden = YES;
-            cell.cancelBtn.hidden = YES;
         }
         else
         {
             cell.stateL.hidden = NO;
-            cell.cancelBtn.hidden = NO;
         }
         
         return cell;
