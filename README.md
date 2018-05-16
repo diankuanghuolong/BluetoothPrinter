@@ -4,8 +4,8 @@ BluetoothPrinter
 [plist配置](https://github.com/diankuanghuolong/BluetoothPrinter/blob/master/BluetoothPrinter/showImages/Pasted%20Graphic.png)
 
 
-声明：本文借鉴多篇网络资源，记不全了。这里提供两个🔗：[🔗1]
-(https://www.jianshu.com/p/1f479b6ab6df)[另一个链接，因为看到多篇相似文章，不确定原作者是谁，就不给了。]
+声明：本文借鉴多篇网络资源，记不全了。这里提供两个🔗：[🔗1](https://www.jianshu.com/p/1f479b6ab6df)
+[另一个链接，因为看到多篇相似文章，不确定原作者是谁，就不给了。]
 
 iOS模拟iPhone设置中蓝牙页面，实现蓝牙外设获取连接列表页面效果。
 
@@ -103,7 +103,8 @@ CBCentralManagerDelegate（中心设备管理代理）CBPeripheralDelegate（外
 }
 ```
 ```
-下边只给出所需代理的方法名称，内部实现，可以在demo中[查看](https://github.com/diankuanghuolong/BluetoothPrinter/blob/master/BluetoothPrinter/Print/printVC/PrintVCV.m)
+下边只给出所需代理的方法名称，内部实现，可以在demo中
+[查看](https://github.com/diankuanghuolong/BluetoothPrinter/blob/master/BluetoothPrinter/Print/printVC/PrintVCV.m)
 #pragma mark  =====  CBCentralManagerDelegate  =====
 /*第三步：扫描完成，将发现设备的不重复地添加到外设数组中
  这个代理方法每扫描到一个外设，就会进入一次。
