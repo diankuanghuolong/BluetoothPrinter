@@ -24,7 +24,7 @@ CBCentralManagerDelegate（中心设备管理代理）CBPeripheralDelegate（外
   1.大致步骤如下：
 ```
   /*第一步：创建设备管理器
- 创建完之后,会回掉CBCentralManagerDelegate中的方法：- (void)centralManagerDidUpdateState:(CBCentralManager *)central
+ 创建完之后,会回调CBCentralManagerDelegate中的方法：- (void)centralManagerDidUpdateState:(CBCentralManager *)central
  */
 -(void)initCBCentralManager
 {
