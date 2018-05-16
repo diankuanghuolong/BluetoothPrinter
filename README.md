@@ -3,6 +3,9 @@ BluetoothPrinter
 
 [plist配置](https://github.com/diankuanghuolong/BluetoothPrinter/blob/master/BluetoothPrinter/showImages/Pasted%20Graphic.png)
 
+
+声明：本文借鉴多篇网络资源，记不全了。这里提供两个🔗：[🔗1](https://www.jianshu.com/p/1f479b6ab6df)[另一个链接，因为看到多篇相似文章，不确定原作者是谁，就不给了。]
+
 iOS模拟iPhone设置中蓝牙页面，实现蓝牙外设获取连接列表页面效果。
 
 首先：
