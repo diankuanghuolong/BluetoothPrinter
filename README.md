@@ -129,5 +129,5 @@ CBCentralManagerDelegate（中心设备管理代理）CBPeripheralDelegate（外
  //如果需要打印，可以实现下面方法
 -(void)peripheral:(CBPeripheral *)peripheral didWriteValueForCharacteristic:(CBCharacteristic *)characteristic error:(NSError *)error
 ```
-![展示图片]()
+![展示图片](https://github.com/diankuanghuolong/BluetoothPrinter/blob/master/BluetoothPrinter/showImages/bluetooth.gif)
 
