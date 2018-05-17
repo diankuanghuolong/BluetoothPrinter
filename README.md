@@ -106,7 +106,7 @@ CBCentralManagerDelegate（中心设备管理代理）CBPeripheralDelegate（外
 }
 ```
 下边只给出所需代理的方法名称，内部实现，可以在demo中
-[查看](https://github.com/diankuanghuolong/BluetoothPrinter/blob/master/BluetoothPrinter/Print/printVC/PrintVCV.m)
+[查看](https://github.com/diankuanghuolong/BluetoothPrinter/blob/master/BluetoothPrinter/Bluetooth/BluetoothVC/BluetoothVC.m)
 ```
 #pragma mark  =====  CBCentralManagerDelegate  =====
 /*第三步：扫描完成，将发现设备的不重复地添加到外设数组中
