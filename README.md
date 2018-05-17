@@ -1,6 +1,8 @@
 # BluetoothPrinter
 BluetoothPrinter
 
+[简书](https://www.jianshu.com/p/ec896828c363)
+
 plist配置![plist配置](https://github.com/diankuanghuolong/BluetoothPrinter/blob/master/BluetoothPrinter/showImages/Pasted%20Graphic.png)
 
 
