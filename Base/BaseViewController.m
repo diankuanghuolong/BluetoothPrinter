@@ -23,6 +23,13 @@
     [super viewDidLoad];
     //其他处理 如转场动画等
     
+    /*
+    这个back手势方法只是在当前项目中使用，其他项目若要使用本demo的基类控制器和基类导航控制器，请将这个手势删除。
+     当前项目没有标签栏，所以 UIViewController 不归BaseNavigationCtr管，是野生的。正常项目UIViewController都会有监护人的，不论你的项目是标签栏管理控制器，还是导航栏管理控制器。
+     扯多了，反正你项目要用俺的这个基类，记得删除这个手势。
+     */
+    UIPanGestureRecognizer *backTap = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(customBack:)];
+    [self.view addGestureRecognizer:backTap];
     
     //导航栏设置
     BaseNavigationCtr * nc = (BaseNavigationCtr *)self.navigationController;
@@ -115,6 +122,24 @@
 - (void)back{
     
     [self.navigationController popViewControllerAnimated:YES];
+}
+-(void)customBack:(UIPanGestureRecognizer *)panTap
+{
+    if(self.navigationController.childViewControllers.count == 1)
+    {
+        return;
+    }
+    //转场动画什么的都忘记了，好烦啊。今天不想写了。
+    if(panTap.state == UIGestureRecognizerStateBegan)
+    {
+        [ToolBox noticeContent:@"朕的一生，无所畏惧,就算你不招惹朕，朕也要咬你！啊呜。" andShowView:self.view andyOffset:NoticeHeight];
+    }
+    else if(panTap.state == UIGestureRecognizerStateEnded ||panTap.state == UIGestureRecognizerStateCancelled)
+    {
+        
+        [MBProgressHUD hideHUDForView:self.view animated:YES];
+        [ToolBox noticeContent:@"你滑个头啊，点返回按钮去!" andShowView:self.view andyOffset:NoticeHeight];
+    }
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];

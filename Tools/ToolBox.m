@@ -33,11 +33,12 @@
     hud.label.text = content;
     hud.label.textColor = UIColorFromHex(0xffffff);
     hud.label.superview.backgroundColor = SystemBlack;
-    hud.label.font = [UIFont systemFontOfSize:20];
+    hud.label.font = [UIFont systemFontOfSize:content.length > 15 ? 13 : 20];
+    hud.label.numberOfLines = 2;
     hud.margin = 8.f;
     hud.offset = CGPointMake(0, yOffset);
     hud.removeFromSuperViewOnHide = YES;
-    [hud hideAnimated:YES afterDelay:1];
+    [hud hideAnimated:YES afterDelay:content.length > 15 ? 5 : 1];
 }
 
 //判断当前控制器是否正在显示

@@ -54,6 +54,7 @@
         
         [self scan:nil];
     }];
+    
 }
 -(void)viewWillDisappear:(BOOL)animated
 {
@@ -299,26 +300,47 @@
     {
         NSDictionary *dict = [self.peripherals objectAtIndex:indexPath.row];
         CBPeripheral *peripheral = dict[@"peripheral"];
-        
+       
         // 连接某个蓝牙外设
         if (dict)
         {
             //
             NSDictionary *dic = _currentPeripheral;
             _currentPeripheral = self.peripherals[indexPath.row];
+            
+            NSArray *deleteIndexPaths = @[];
+            NSArray *insertIndexPaths = @[];
             if (dic)
             {
-                [self.peripherals replaceObjectAtIndex:indexPath.row withObject:dic];
+                [self.peripherals removeObjectAtIndex:indexPath.row];
+                [self.peripherals insertObject:dic atIndex:0];
+
+                //刷新cell
+                deleteIndexPaths = @[[NSIndexPath indexPathForRow:indexPath.row inSection:2]];
+                insertIndexPaths = @[[NSIndexPath indexPathForRow:0 inSection:2]];
+                [tableView beginUpdates];
+                [tableView deleteRowsAtIndexPaths:deleteIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+                [tableView insertRowsAtIndexPaths:insertIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+                [tableView endUpdates];
             }
             else
+            {
                 [self.peripherals removeObjectAtIndex:indexPath.row];
+                
+                //刷新cell
+                deleteIndexPaths = @[[NSIndexPath indexPathForRow:indexPath.row inSection:2]];
+                [tableView beginUpdates];
+                [tableView deleteRowsAtIndexPaths:deleteIndexPaths withRowAnimation:UITableViewRowAnimationFade];
+                [tableView endUpdates];
+            }
             
             [self contentPeripheral:peripheral withIndexPath:indexPath];
         }
     }
     
     //滑动到顶部
-    [self.tableView scrollRectToVisible:CGRectMake(0, 0, SCREEN_WIDTH, self.tableView.height) animated:YES];
+    [tableView setContentOffset:CGPointMake(0,0) animated:YES];
+    tableView.scrollsToTop = YES;
 }
 /*分割线前移*/
 -(void)viewDidLayoutSubviews
@@ -393,13 +415,19 @@
         cell.stateL.text = @"未连接";
         cell.cancelBtn.hidden = YES;
     }
+    
+    //刷新cell
+    NSArray *indexPaths = @[[NSIndexPath indexPathForRow:0 inSection:1]];
+    [_tableView beginUpdates];
+    [_tableView reloadRowsAtIndexPaths:indexPaths withRowAnimation:UITableViewRowAnimationFade];
+    [_tableView endUpdates];
 }
 -(void)contentPeripheral:(CBPeripheral *)peripheral withIndexPath:(NSIndexPath *)indexPath//点击cell，连接外设
 {
     [self connectPeripheral:peripheral];
     
-    //点击cell数据已替换，刷新列表
-    [_tableView reloadData];
+//    //点击cell数据已替换，刷新列表
+    [self changeCurrentPeripheralState];
     
     //添加加载图
     if (_aciv) {
@@ -425,7 +453,11 @@
     }
     [self.centerManager cancelPeripheralConnection:peripheral];
     _currentPeripheral = nil;
+    
+    //刷新cell
+    [_tableView beginUpdates];
     [_tableView reloadRowsAtIndexPaths:@[[NSIndexPath indexPathForRow:0 inSection:1]] withRowAnimation:UITableViewRowAnimationBottom];
+    [_tableView endUpdates];
 }
 #pragma mark
 #pragma mark  =====  CBCentralManagerDelegate  =====
@@ -471,12 +503,22 @@
         {
             NSDictionary *dict = [self.peripherals objectAtIndex:i];
             CBPeripheral *per = dict[@"peripheral"];
-            if ([per.identifier.UUIDString isEqualToString:peripheral.identifier.UUIDString]) {
+            if ([per.identifier.UUIDString isEqualToString:peripheral.identifier.UUIDString])//扫描到的外设已有，替换
+            {
                 isExist = YES;
                 NSDictionary *dict = @{@"peripheral":peripheral,@"locolName":locolName,@"peripheralName":peripheralName,@"advertisementData":advertisementData,@"RSSI":RSSI};
                 [self.peripherals replaceObjectAtIndex:i withObject:dict];
             }
             
+            //去除已连接的外设
+            if (_currentPeripheral)
+            {
+                CBPeripheral *currentPer = _currentPeripheral[@"peripheral"];
+                if ([per.identifier.UUIDString isEqualToString:currentPer.identifier.UUIDString]) {
+                    
+                    [self.peripherals removeObjectAtIndex:i];
+                }
+            }
         }
         
         if (!isExist)
@@ -517,11 +559,12 @@
     // 连接外设成功后关闭扫描
     [self.centerManager stopScan];
     
-    [ToolBox noticeContent:@"连接成功" andShowView:self.view andyOffset:NoticeHeight];
-    
     //隐藏加载图，修改连接状态
     [self hiddenAciv];
     [self changeCurrentPeripheralState];
+    
+     [ToolBox noticeContent:@"连接成功" andShowView:self.view andyOffset:NoticeHeight];
+    
     //
     [peripheral discoverServices:nil];
 }
@@ -652,6 +695,7 @@
      */
     NSLog(@"central.state ===== %ld",(long)central.state);
     [_bluetoothSwitch setOn:NO];
+    
     switch (central.state) {
         case CBCentralManagerStateResetting:
             NSLog(@"CBCentralManagerStateResetting");
@@ -671,6 +715,9 @@
         case CBCentralManagerStatePoweredOff:
         {
             NSLog(@"可用，未打开");
+            [self.peripherals removeAllObjects];
+            _currentPeripheral = nil;
+            [_tableView reloadData];
             [ToolBox noticeContent:@"蓝牙未打开，请在设置中打开" andShowView:self.view andyOffset:NoticeHeight];
         }
             break;
