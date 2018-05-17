@@ -17,6 +17,10 @@
     NSDictionary *_currentPeripheral;//----------当前连接的外设
     
     UIActivityIndicatorView *_aciv;//------------连接外设时的加载控件
+    
+    //设置定时器，扫描一分钟后停止扫描，节省性能。
+    NSInteger _timeNum;
+    NSTimer *_timer;
 }
 @property (nonatomic ,strong)NSArray *dataSource;
 @property (nonatomic ,strong)UITableView *tableView;
@@ -50,6 +54,13 @@
         
         [self scan:nil];
     }];
+}
+-(void)viewWillDisappear:(BOOL)animated
+{
+    [super viewWillDisappear:animated];
+    
+    //
+    [self stopTimer];
 }
 #pragma mark ===== lazyLoad  =====
 -(UITableView *)tableView
@@ -92,6 +103,18 @@
 //第二步：扫描蓝牙外设
 - (void)scan:(id)sender
 {
+    if (_timer)
+    {
+        [self stopTimer];
+    }
+    _timeNum = 120;
+    _timer = [NSTimer scheduledTimerWithTimeInterval:1 target:self selector:@selector(timerCount:) userInfo:nil repeats:YES];
+    [_timer fire];
+    
+    [self startScanPeripheral];
+}
+-(void)startScanPeripheral
+{
     if (self.centerManager.state != CBCentralManagerStatePoweredOn)
     {
         [ToolBox noticeContent:@"请检查蓝牙是否打开" andShowView:self.view andyOffset:NoticeHeight];
@@ -103,6 +126,20 @@
     [self.centerManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@(NO)}];
     //key值是NSNumber,默认值为NO表示不会重复扫描已经发现的设备,如需要不断获取最新的信号强度RSSI所以一般设为YES了
     [self stopLoad];
+}
+-(void)stopScanPeripheral
+{
+    if (@available(iOS 9.0, *))
+    {
+        if ([self.centerManager isScanning])
+        {
+            [self.centerManager stopScan];
+            [ToolBox noticeContent:@"扫描结束" andShowView:self.view andyOffset:NoticeHeight];
+            NSLog(@"扫描结束");
+        }
+    } else {
+        // Fallback on earlier versions
+    }
 }
 - (void)closeAction:(UISwitch *)sender
 {
@@ -222,7 +259,8 @@
             
             cell.deviceNameL.text = peripheralStr;
             
-            if (peripheral.state == CBPeripheralStateConnected)
+            //
+            if (peripheral.state == CBPeripheralStateConnected && indexPath.section == 1)
             {
                 cell.stateL.text = @"已连接";
                 cell.cancelBtn.hidden = NO;
@@ -235,13 +273,9 @@
         }
         //reframe
         if (indexPath.section == 2)
-        {
-            cell.stateL.hidden = YES;
-        }
+             cell.stateL.hidden = YES;
         else
-        {
             cell.stateL.hidden = NO;
-        }
         
         return cell;
     }
@@ -251,9 +285,7 @@
     [tableView deselectRowAtIndexPath:indexPath animated:YES];
     
     if (indexPath.section == 0)
-    {
         return;
-    }
     else if (indexPath.section == 1)
     {
         if (_currentPeripheral != nil)//点击"已连接设备"连接时，不需要替换数据源
@@ -284,6 +316,9 @@
             [self contentPeripheral:peripheral withIndexPath:indexPath];
         }
     }
+    
+    //滑动到顶部
+    [self.tableView scrollRectToVisible:CGRectMake(0, 0, SCREEN_WIDTH, self.tableView.height) animated:YES];
 }
 /*分割线前移*/
 -(void)viewDidLayoutSubviews
@@ -312,7 +347,27 @@
         [cell setLayoutMargins:UIEdgeInsetsMake(0,0,0,0)];
     }
 }
-
+#pragma mark  =====  tools  =====
+-(void)stopTimer
+{
+    [_timer invalidate];
+    _timer = nil;
+}
+-(void)timerCount:(id)sender
+{
+    if (_timeNum <= 0)
+    {
+        //关闭定时器
+        [self stopTimer];
+        
+        //关闭扫描
+        [self stopScanPeripheral];
+        
+        return;
+    }
+    --_timeNum;
+//    NSLog(@"%ld",_timeNum);
+}
 #pragma mark  =====  contentPeripheralTools  =====
 -(void)hiddenAciv//隐藏加载图
 {
@@ -476,11 +531,8 @@
     [self hiddenAciv];
     [self changeCurrentPeripheralState];
     
-    if (error)
-    {
-//        NSString *errorStr = [[NSString alloc] initWithFormat:@"%@",error];
-        [ToolBox noticeContent:@"连接失败" andShowView:self.view andyOffset:NoticeHeight];
-    }
+    //        NSString *errorStr = [[NSString alloc] initWithFormat:@"%@",error];
+    [ToolBox noticeContent:@"连接失败" andShowView:self.view andyOffset:NoticeHeight];
 }
 -(void) centralManager:(CBCentralManager *)central didDisconnectPeripheral:(CBPeripheral *)peripheral error:(NSError *)error//收到连接状态断开 代理
 {
@@ -611,10 +663,9 @@
         {
             NSLog(@"打开，可用");
             [_bluetoothSwitch setOn:YES];
-            //给个scan Button，在button方法中扫描
             
-            [self.centerManager scanForPeripheralsWithServices:nil options:@{CBCentralManagerScanOptionAllowDuplicatesKey:@(NO)}];
-            //                        //key值是NSNumber,默认值为NO表示不会重复扫描已经发现的设备,如需要不断获取最新的信号强度RSSI所以一般设为YES了
+            //扫描外设
+            [self scan:nil];
         }
             break;
         case CBCentralManagerStatePoweredOff:
