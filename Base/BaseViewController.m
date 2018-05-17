@@ -13,7 +13,7 @@
 #define NavBarBGViewColor UIColorFromHex(0xffffff)  // ----- 自定义导航栏视图navbarBGV颜色
 #define NavBarLineColor  UIColorFromHex(0xaaaaaa)   // ----- 自定义导航栏底部线条颜色
 
-@interface BaseViewController ()
+@interface BaseViewController ()<UIGestureRecognizerDelegate>
 
 @end
 
@@ -28,7 +28,9 @@
      当前项目没有标签栏，所以 UIViewController 不归BaseNavigationCtr管，是野生的。正常项目UIViewController都会有监护人的，不论你的项目是标签栏管理控制器，还是导航栏管理控制器。
      扯多了，反正你项目要用俺的这个基类，记得删除这个手势。
      */
-    UIPanGestureRecognizer *backTap = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(customBack:)];
+    UIScreenEdgePanGestureRecognizer *backTap = [[UIScreenEdgePanGestureRecognizer alloc] initWithTarget:self action:@selector(customBack:)];
+    backTap.delegate = self;
+    [backTap setEdges:UIRectEdgeLeft];
     [self.view addGestureRecognizer:backTap];
     
     //导航栏设置
@@ -123,7 +125,7 @@
     
     [self.navigationController popViewControllerAnimated:YES];
 }
--(void)customBack:(UIPanGestureRecognizer *)panTap
+-(void)customBack:(UIScreenEdgePanGestureRecognizer *)panTap
 {
     if(self.navigationController.childViewControllers.count == 1)
     {
@@ -140,6 +142,12 @@
         [MBProgressHUD hideHUDForView:self.view animated:YES];
         [ToolBox noticeContent:@"你滑个头啊，点返回按钮去!" andShowView:self.view andyOffset:NoticeHeight];
     }
+}
+#pragma mark  =====  =====
+- (BOOL)gestureRecognizerShouldBegin:(UIGestureRecognizer *)gestureRecognizer
+{
+    return YES;
+    
 }
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
